@@ -4,6 +4,7 @@ import SearchPanel from '../SearchPanel';
 import TodoList from '../TodoList';
 import classes from './App.module.sass';
 import AddItem from '../AddItem';
+import ItemStatusFilter from '../ItemStatusFilter/ItemStatusFilter';
 
 export default class App extends Component {
   state = {
@@ -14,6 +15,7 @@ export default class App extends Component {
       this.createTodoItem('Drink tea'),
     ],
     term: '',
+    filtered: 'all',
   };
 
   createTodoItem(label) {
@@ -23,7 +25,6 @@ export default class App extends Component {
       done: false,
       id: Math.random(),
       hidden: false,
-      filtered: true,
     };
   }
 
@@ -77,61 +78,40 @@ export default class App extends Component {
     );
   }
 
+  filter(arr, filtered) {
+    switch (filtered) {
+      case 'all':
+        return arr;
+      case 'active':
+        return arr.filter(el => !el.done);
+      case 'done':
+        return arr.filter(el => el.done);
+      default:
+        return arr;
+    }
+  }
+
   onSearchHandler = term => {
-    this.setState({
-      term,
-    });
+    this.setState({ term });
   };
 
-  onClearFilter = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map(el => {
-          return { ...el, filtered: true };
-        }),
-      };
-    });
-  };
-
-  onActiveFilter = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map(el => {
-          return el.done
-            ? { ...el, filtered: false }
-            : { ...el, filtered: true };
-        }),
-      };
-    });
-  };
-
-  onDoneFilter = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map(el => {
-          return el.done
-            ? { ...el, filtered: true }
-            : { ...el, filtered: false };
-        }),
-      };
-    });
+  onFilterHandler = filtered => {
+    this.setState({ filtered });
   };
 
   render() {
-    const { todoData, term } = this.state;
-    const visibleItems = this.search(todoData, term);
+    const { todoData, term, filtered } = this.state;
+    const visibleItems = this.filter(this.search(todoData, term), filtered);
     const doneElements = todoData.filter(el => el.done).length;
     const todoElements = todoData.length - doneElements;
     return (
       <div className={classes.App}>
         <AppHeader toDo={todoElements} done={doneElements} />
         <div className={classes.topPanel + ' d-flex'}>
-          <SearchPanel
-            onSearchHandler={this.onSearchHandler}
-            onClearFilter={this.onClearFilter}
-            onActiveFilter={this.onActiveFilter}
-            onDoneFilter={this.onDoneFilter}
-            term={term}
+          <SearchPanel onSearchHandler={this.onSearchHandler} term={term} />
+          <ItemStatusFilter
+            filtered={filtered}
+            onFilterHandler={this.onFilterHandler}
           />
         </div>
         <TodoList

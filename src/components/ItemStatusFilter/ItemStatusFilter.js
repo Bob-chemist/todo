@@ -1,59 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class ItemStatusFilter extends Component {
-  state = {
-    buttons: [
-      {
-        label: 'All',
-        className: ['btn', 'btn-info'],
-        onClick: this.props.onClearFilter,
-      },
-      {
-        label: 'Active',
-        className: ['btn', 'btn-outline-secondary'],
-        onClick: this.props.onActiveFilter,
-      },
-      {
-        label: 'Done',
-        className: ['btn', 'btn-outline-secondary'],
-        onClick: this.props.onDoneFilter,
-      },
-    ],
-  };
+const ItemStatusFilter = props => {
+  const buttons = [
+    {
+      label: 'All',
+      name: 'all',
+    },
+    {
+      label: 'Active',
+      name: 'active',
+    },
+    {
+      label: 'Done',
+      name: 'done',
+    },
+  ];
 
-  renderButtons = () => {
-    return this.state.buttons.map(el => {
+  const renderButtons = arr => {
+    return arr.map(({ name, label }) => {
+      const isActive = name === props.filtered;
+      const classCSS = isActive ? 'btn-info' : 'btn-outline-secondary';
       return (
         <button
-          key={el.label}
+          key={name}
           type="button"
-          className={el.className.join(' ')}
-          onClick={() => {
-            el.onClick();
-            this.changeClasses(el.label);
-          }}
+          className={`btn ${classCSS}`}
+          onClick={() => props.onFilterHandler(name)}
         >
-          {el.label}
+          {label}
         </button>
       );
     });
   };
 
-  changeClasses = label => {
-    this.setState(({ buttons }) => {
-      buttons.map(el => {
-        const newEl = { ...el };
-        newEl.label === label
-          ? (newEl.className[1] = 'btn-info')
-          : (newEl.className[1] = 'btn-outline-secondary');
-        return newEl;
-      });
-    });
-  };
-
-  render() {
-    return <div className="btn-group">{this.renderButtons()}</div>;
-  }
-}
+  return <div className="btn-group">{renderButtons(buttons)}</div>;
+};
 
 export default ItemStatusFilter;
