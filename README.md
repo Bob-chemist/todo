@@ -1,3 +1,21 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# ToDo приложение (список дел)
 
-## ToDo
+## [ToDo-app](https://todo-7fbab.firebaseapp.com/ 'ToDo-app')
+
+### Использованы
+
+- Create-react-app;
+- Sass-modules;
+
+### Реализовано
+
+- Одностраничное приложение (SPA) со списком дел;
+- Добавление новых дел в список;
+- Отметка о выполнении дела;
+- Отметка о важности дела;
+- Фильтрация по активным и выполненным делам;
+- Поиск;
+
+### ToDo
+
+- Переписать некоторые классовые компоненты на хуки;
