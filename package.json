@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react-hooks": "^1.6.0",
-    "node-sass": "^4.11.0",
-    "prettier": "^1.16.4",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-react-hooks": "^1.6.1",
+    "node-sass": "^4.12.0",
+    "prettier": "^1.18.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "2.1.8"
+    "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "set PORT=3002 && react-scripts start",
